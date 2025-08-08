@@ -16,7 +16,7 @@ export default function ProductCard({ product, onAdd }) {
 
   return (
     <div
-      className="card h-100 border-0 shadow-sm"
+      className="card h-100 border-0 shadow-sm position-relative"
       style={{ transition: "transform 0.2s ease, box-shadow 0.2s ease" }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)";
@@ -27,7 +27,17 @@ export default function ProductCard({ product, onAdd }) {
         e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.04)";
       }}
     >
-      {/* Görsel */}
+      {/* Out of Stock Etiketi */}
+      {!product.inStock && (
+        <span
+          className="badge bg-danger position-absolute top-0 start-0 m-2"
+          style={{ fontSize: "0.8rem" }}
+        >
+          SOLD OUT
+        </span>
+      )}
+
+      {/* Ürün Görseli */}
       <div className="ratio ratio-4x3 bg-light">
         <img
           src={product.image}
@@ -43,11 +53,12 @@ export default function ProductCard({ product, onAdd }) {
         />
       </div>
 
-      {/* İçerik */}
+      {/* Ürün Bilgileri */}
       <div className="card-body d-flex flex-column gap-2">
         <h5 className="card-title mb-1">{product.name}</h5>
         <p className="fw-bold mb-2">{formattedPrice}</p>
 
+        {/* Varyant Seçimi */}
         {product.variants?.length ? (
           <div className="d-flex align-items-center gap-2">
             <label
@@ -73,6 +84,7 @@ export default function ProductCard({ product, onAdd }) {
           <span className="badge bg-light text-dark">Single option</span>
         )}
 
+        {/* Buton */}
         {product.inStock ? (
           <button
             className="btn btn-dark mt-1"
